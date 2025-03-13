@@ -23,6 +23,7 @@ use Filament\Tables\Actions\ExportBulkAction;
 use App\Filament\Resources\UserResource\Pages;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 use Filament\Infolists\Components\Section as InfolistSection;
+use Filament\Notifications\Notification;
 
 class UserResource extends Resource
 {
@@ -37,6 +38,11 @@ class UserResource extends Resource
                 Section::make(
                     'User Information'
                 )->schema([
+                        Select::make('customers')
+                        ->relationship('customers', 'title') // burada 'title' müşteri adının tutulduğu alan
+                        ->preload()
+                        ->label('Müşteriler'),
+
                             TextInput::make('name')
                                 ->required(),
                             TextInput::make('email')
@@ -103,6 +109,29 @@ class UserResource extends Resource
                     ]),
                 // Impersonate::make(),
                 Tables\Actions\DeleteAction::make(),
+
+                Action::make('Assign Customer')
+                    ->icon('heroicon-m-building-office')
+                    ->form([
+                        Select::make('customer_id')
+                            ->relationship('customer', 'title')
+                            ->searchable()
+                            ->preload()
+                            ->required()
+                            ->label('Müşteri'),
+                    ])
+                    ->action(function (User $record, array $data): void {
+                        // Müşteriyi güncelle
+                        $record->customer_id = $data['customer_id'];
+                        $record->save();
+
+                        // Başarılı mesajı göster
+                        Notification::make()
+                            ->success()
+                            ->title('Müşteri atandı')
+                            ->body('Kullanıcıya müşteri başarıyla atandı.')
+                            ->send();
+                    }),
             ])
             ->headerActions([
                 ExportAction::make()

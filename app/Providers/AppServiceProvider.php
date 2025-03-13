@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
         //
         parent::register();
         FilamentView::registerRenderHook('panels::body.end', fn(): string => Blade::render("@vite('resources/js/app.js')"));
+
+
     }
 
     /**

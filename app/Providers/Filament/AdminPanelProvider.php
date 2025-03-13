@@ -57,11 +57,10 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('')
             ->when($this->settings->login_enabled ?? true, fn($panel) => $panel->login(Login::class))
             ->when($this->settings->registration_enabled ?? true, fn($panel) => $panel->registration())
             ->when($this->settings->password_reset_enabled ?? true, fn($panel) => $panel->passwordReset())
-            ->emailVerification()
+            ->emailVerification(false)
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -77,7 +76,7 @@ class AdminPanelProvider extends PanelProvider
 
             ->pages([
                 Pages\Dashboard::class,
-                MeetingGridView::class, // MeetingGridView sayfasını kaydet
+//                MeetingGridView::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
@@ -136,7 +135,9 @@ class AdminPanelProvider extends PanelProvider
                         ->image()
                         ->disk('public')
                 )
-                ->enableTwoFactorAuthentication(),
+                ->enableTwoFactorAuthentication(
+                    force: false
+                )
         ];
 
         if ($this->settings->sso_enabled ?? true) {

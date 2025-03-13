@@ -13,6 +13,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "aymanalhattami/filament-page-with-sidebar": "^2.5",
         "bezhansalleh/filament-shield": "^3.3",
         "blade-ui-kit/blade-heroicons": "^2.6",
         "dedoc/scramble": "^0.11.33",
@@ -22,6 +23,7 @@
         "filament/spatie-laravel-settings-plugin": "^3.2",
         "hasnayeen/themes": "*",
         "jeffgreco13/filament-breezy": "^2.4",
+        "lara-zeus/qr": "^1.2",
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",

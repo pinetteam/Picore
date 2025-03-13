@@ -6,7 +6,7 @@ use App\Domain\Customer\Models\Customer;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+//use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +16,7 @@ use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles, TwoFactorAuthenticatable, HasApiTokens;
@@ -60,11 +60,18 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
     /**
      * Get the customer that owns the user.
      */
-    public function customer(): BelongsTo
+//    public function customer(): BelongsTo
+//    {
+//        return $this->belongsTo(Customer::class);
+//    }
+    public function customer()
     {
         return $this->belongsTo(Customer::class);
     }
-
+    public function customers()
+    {
+        return $this->belongsToMany(Customer::class);
+    }
     /**
      * Check if the user is associated with a customer.
      */

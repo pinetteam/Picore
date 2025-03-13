@@ -32,8 +32,7 @@ class Login extends BaseLogin
         $user = \App\Models\User::where('email', $data['email'])->first();
         if ($user && is_null($user->password)) {
             throw ValidationException::withMessages([
-                'data.email' => 'This account was created using social login. Please login with Google.',
-            ]);
+                'data.email' => 'This account was created using social login. Please login with Google.',]);
         }
 
         if (! Filament::auth()->attempt($this->getCredentialsFromFormData($data), $data['remember'] ?? false)) {
