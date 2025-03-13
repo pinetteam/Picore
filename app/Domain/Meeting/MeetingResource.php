@@ -164,8 +164,8 @@ class MeetingResource extends Resource
             ->actions([
                 Tables\Actions\Action::make('view_documents')
                     ->label('Yönetim')
-                    ->icon('heroicon-o-document-text')
-                    ->url(fn ($record) => url("meeting-management/{$record->id}/documents"))
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->url(fn ($record) => url("meeting-management/{$record->id}/general"))
                     ->color('success'),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

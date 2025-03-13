@@ -39,6 +39,7 @@ class MeetingManagementPage extends Page implements HasForms, HasTable
     protected static ?string $slug = 'meeting-management/{meeting?}/{section?}';
 
     protected static ?string $title = null;
+    protected static bool $shouldRegisterNavigation = false;
 
     protected ?string $maxContentWidth = "full";
 
@@ -48,7 +49,14 @@ class MeetingManagementPage extends Page implements HasForms, HasTable
     public function mount($meeting = null, $section = null): void
     {
         $this->initializeMeetingContext($meeting, $section);
-        $this->persistentSection = $section ?: 'general';
+
+
+        if ($this->selectedMeetingId && !$section) {
+            $this->persistentSection = null; // veya 'overview', 'dashboard' gibi özel bir değer
+        } else {
+            $this->persistentSection = $section ?: 'general';
+        }
+
     }
 
     // Sidebar (navigation) for filament-page-with-sidebar
@@ -121,7 +129,14 @@ class MeetingManagementPage extends Page implements HasForms, HasTable
             return null;
         }
 
+        if (!$this->persistentSection) {
+            return null;
+        }
+
+
         switch ($this->currentSection) {
+            case 'general':
+                return null;
             case 'announcements':
                 return new AnnouncementTableDefinition($this->selectedMeetingId);
             case 'participants':
@@ -141,7 +156,15 @@ class MeetingManagementPage extends Page implements HasForms, HasTable
     public function getTableQuery()
     {
         $definition = $this->getTableDefinition();
-        return $definition ? $definition->getQuery() : null;
+
+        if (!$definition) {
+            // Boş bir sorgu döndür
+            return \App\Models\User::query()->whereRaw('1 = 0');
+            // veya toplantı ile ilgili bir model kullanın
+            // return \App\Domain\Meeting\Models\Announcement::query()->whereRaw('1 = 0');
+        }
+
+        return $definition->getQuery();
     }
 
     // Table columns definition
@@ -223,12 +246,21 @@ class MeetingManagementPage extends Page implements HasForms, HasTable
     // Render section content based on the current section
     public function renderSectionContent()
     {
+
+
         if (!$this->getSelectedMeeting()) {
             return new HtmlString('
                 <div class="text-center p-6">
                     <p class="text-gray-500">Please select a meeting</p>
                 </div>
             ');
+        }
+
+        // Section null ise bir overview sayfası göster
+        if (!$this->persistentSection || $this->persistentSection === 'general') {
+            return view('domain.meeting.meeting-sections.overview', [
+                'meeting' => $this->getSelectedMeeting()
+            ]);
         }
 
         try {

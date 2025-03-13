@@ -13,13 +13,13 @@ trait HasMeetingContext
     protected function getMeetingSections(): array
     {
         return [
-//            // Hazırlık ve Yönetim grubu
-//            'general' => [
-//                'label'       => 'Genel Bilgiler',
-//                'icon'        => 'heroicon-o-information-circle',
-//                'description' => 'Toplantı genel bilgileri',
-//                'group'       => 'Hazırlık ve Yönetim'
-//            ],
+            // Hazırlık ve Yönetim grubu
+            'general' => [
+                'label'       => 'Genel Bilgiler',
+                'icon'        => 'heroicon-o-information-circle',
+                'description' => 'Toplantı genel bilgileri',
+                'group'       => 'Hazırlık ve Yönetim'
+            ],
             'documents' => [
                 'label'       => 'Dokümanlar',
                 'icon'        => 'heroicon-o-document',
