@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Domain\Meeting\Pages\HallManagementPage;
 use App\Domain\Meeting\Pages\MeetingGridView;
 
 use App\Filament\Pages\Login;
@@ -77,6 +78,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
 //                MeetingGridView::class,
+                HallManagementPage::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

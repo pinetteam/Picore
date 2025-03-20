@@ -6,6 +6,7 @@ use App\Domain\Meeting\Concerns\HasMeetingContext;
 use App\Domain\Meeting\Tables\Definitions\AnnouncementTableDefinition;
 use App\Domain\Meeting\Tables\Definitions\DocumentTableDefinition;
 use App\Domain\Meeting\Tables\Definitions\ParticipantTableDefinition;
+use App\Domain\Meeting\Tables\Definitions\HallTableDefinition;
 use Filament\Pages\Page;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -144,6 +145,7 @@ class MeetingManagementPage extends Page implements HasForms, HasTable
             case 'documents':
                 return new DocumentTableDefinition($this->selectedMeetingId);
             case 'halls':
+                return  new HallTableDefinition($this->selectedMeetingId);
             case 'surveys':
                 // Implement other table definitions as needed
                 return null;
